@@ -4,14 +4,20 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./utils/db')
 const session = require('express-session')
+const flash = require('express-flash')
+const send = require('./utils/send')
 
+var sessionStorage = new session.MemoryStore
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(session({
+    cookie: {maxAge: 60000},
+    store: sessionStorage, 
     secret: "secret",
     resave: true,
     saveUninitialized: true
 }))
+app.use(flash())
 
 // template engine config
 const hbs = require('hbs')
@@ -21,7 +27,7 @@ app.use(express.static(path.join(__dirname, "../public")))
 
 // welcome website
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('index', { data: req.flash('warning') })
 })
 
 // authentication controller
@@ -30,20 +36,27 @@ app.post('/auth', (req, res) => {
     const pass = req.body.password
     if(user && pass) {
         db.query(`SELECT * FROM user WHERE username = "${user}" AND password = "${pass}"`, (err, results) => {
-            if(err) res.redirect('/');
 
-            if(results[0].level == "admin") {
-                req.session.loggedin = true
-                req.session.admin = true
-                res.redirect('/admin')
+            if(results == []) {
+                req.flash('warning', { type: 'error',
+                                       message: 'Tidak ditemukan'});
+                res.redirect('/');
             } else {
-                req.session.loggedin = true;
-                req.session.username = pass
-                res.redirect('/vote')
-            } 
+                if (results[0].level == "admin") {
+                    req.session.loggedin = true
+                    req.session.admin = true
+                    res.redirect('/admin')
+                } else {
+                    req.session.loggedin = true;
+                    req.session.username = pass
+                    res.redirect('/vote')
+                } 
+            }
 
         })
     } else {
+        req.flash('warning', { type: 'error',
+                               message: 'Mohon username & password diisi lengkap!'});
         res.redirect('/')
     }
 })
@@ -51,7 +64,10 @@ app.post('/auth', (req, res) => {
 // enter the vote web
 app.get('/vote', (req, res) => {
     if(req.session.loggedin) {
-        res.render('vote')
+        db.query("SELECT * FROM table_calon", (err, results) => {
+            if(err) throw err;
+            res.render('vote', {candidate: results})
+        })
     } else {
         res.redirect('/')
     }
@@ -64,18 +80,20 @@ app.get('/detail', (req, res) => {
 
 // admin page 
 app.get('/admin', (req, res) => {
-
     if(req.session.loggedin && req.session.admin) {
         res.render('admin')
     } else {
         res.redirect('/')
     }
-
 })
 
 // add candidate page
 app.get('/add_calon', (req, res) => {
-    res.render('add_calon')
+    if(req.session.loggedin && req.session.admin) {
+        res.render('add_calon')
+    } else {
+        res.redirect('/')
+    }
 })
 
 // destroy session and logout from website
@@ -83,6 +101,9 @@ app.get('/logout', (req, res) => {
     req.session.destroy()
     res.redirect('/')
 })
+
+// function for upload handler
+send(app)
 
 app.get('*', (req, res) => {
     res.send(`<h3 style="text-align: center; margin-top: 70px; font-family: 'Roboto'; font-size: 22px;"> NOT FOUND 404 </h3>`)

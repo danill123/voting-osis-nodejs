@@ -34,6 +34,13 @@
             <div class="row justify-content-center">
               <div class="col-lg-12">
                 <div class="p-5">
+                  {{#if data}}
+                      <div class="alert alert-danger text-center" role="alert">
+                        {{#each data}}
+                              {{message}}
+                        {{/each}}
+                      </div>
+                  {{/if}}
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">E-VOTING OSIS</h1>
                   </div>
