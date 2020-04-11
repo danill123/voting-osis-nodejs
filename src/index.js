@@ -3,9 +3,15 @@ const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./utils/db')
+const session = require('express-session')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+}))
 
 // template engine config
 const hbs = require('hbs')
@@ -18,15 +24,24 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+// authentication controller
 app.post('/auth', (req, res) => {
     const user = req.body.username
     const pass = req.body.password
     if(user && pass) {
         db.query(`SELECT * FROM user WHERE username = "${user}" AND password = "${pass}"`, (err, results) => {
-            if(err) {
-                res.redirect('/')
-            };
-            res.send(results)
+            if(err) res.redirect('/');
+
+            if(results[0].level == "admin") {
+                req.session.loggedin = true
+                req.session.admin = true
+                res.redirect('/admin')
+            } else {
+                req.session.loggedin = true;
+                req.session.username = pass
+                res.redirect('/vote')
+            } 
+
         })
     } else {
         res.redirect('/')
@@ -35,7 +50,11 @@ app.post('/auth', (req, res) => {
 
 // enter the vote web
 app.get('/vote', (req, res) => {
-    res.render('vote')
+    if(req.session.loggedin) {
+        res.render('vote')
+    } else {
+        res.redirect('/')
+    }
 })
 
 // detail calon 
@@ -45,7 +64,13 @@ app.get('/detail', (req, res) => {
 
 // admin page 
 app.get('/admin', (req, res) => {
-    res.render('admin')
+
+    if(req.session.loggedin && req.session.admin) {
+        res.render('admin')
+    } else {
+        res.redirect('/')
+    }
+
 })
 
 // add candidate page
@@ -55,7 +80,8 @@ app.get('/add_calon', (req, res) => {
 
 // destroy session and logout from website
 app.get('/logout', (req, res) => {
-
+    req.session.destroy()
+    res.redirect('/')
 })
 
 app.get('*', (req, res) => {
