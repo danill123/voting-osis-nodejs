@@ -1,6 +1,6 @@
 ##  :cloud:**WEB VOTING OSIS PUBLIK (OPEN SOURCE)**
 ####:construction_worker: (Tahap pemgembangan)
-####credits : Danill Yudhistira Setiawan
+credits : Danill Yudhistira Setiawan
 ###:sparkles:fitur
 - menambah, menghapus & mengedit candidate osis.
 - Memantau pemilihan secara realtime.
