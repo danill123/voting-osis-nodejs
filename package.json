@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "express-flash": "0.0.2",
     "express-session": "^1.17.0",
     "express.js": "^1.0.0",
+    "formidable": "^1.2.2",
     "hbs": "^4.1.1",
     "mysql": "^2.18.1"
   },

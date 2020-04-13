@@ -75,13 +75,17 @@ app.get('/vote', (req, res) => {
 
 // detail calon 
 app.get('/detail', (req, res) => {
-    res.render('detail')
+    if(req.session.loggedin) {
+        res.render('detail')
+    } else {
+        res.redirect('/')
+    }
 })
 
 // admin page 
 app.get('/admin', (req, res) => {
-    if(req.session.loggedin && req.session.admin) {
-        res.render('admin')
+    if(req.session.loggedin && req.session.admin) { 
+        res.render('admin', { message: req.flash('info') })
     } else {
         res.redirect('/')
     }
@@ -89,11 +93,11 @@ app.get('/admin', (req, res) => {
 
 // add candidate page
 app.get('/add_calon', (req, res) => {
-    if(req.session.loggedin && req.session.admin) {
-        res.render('add_calon')
-    } else {
-        res.redirect('/')
-    }
+    // if(req.session.loggedin && req.session.admin) {
+    // } else {
+    //     res.redirect('/')
+    // } do later
+    res.render('add_calon')
 })
 
 // destroy session and logout from website
