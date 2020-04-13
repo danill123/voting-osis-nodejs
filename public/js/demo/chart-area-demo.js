@@ -32,7 +32,7 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["01", "02", "03", "04"],
+    labels: ["Nomor Urut 01", "Nomor Urut 02", "Nomor Urut 03", "Nomor Urut 04", "Nomor Urut 05", "Nomor Urut 06", "Nomor Urut 07"],
     datasets: [{
       label: "Suara",
       lineTension: 0.3,
@@ -46,7 +46,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [12, 100, 30, 10],
+      data: [12, 100, 30, 10, 90, 50, 80],
     }],
   },
   options: {

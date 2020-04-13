@@ -36,8 +36,7 @@ app.post('/auth', (req, res) => {
     const pass = req.body.password
     if(user && pass) {
         db.query(`SELECT * FROM user WHERE username = "${user}" AND password = "${pass}"`, (err, results) => {
-
-            if(results == []) {
+            if(results === undefined || results.length == 0) {
                 req.flash('warning', { type: 'error',
                                        message: 'Tidak ditemukan'});
                 res.redirect('/');
@@ -48,7 +47,7 @@ app.post('/auth', (req, res) => {
                     res.redirect('/admin')
                 } else {
                     req.session.loggedin = true;
-                    req.session.username = pass
+                    req.session.username = user
                     res.redirect('/vote')
                 } 
             }
@@ -66,38 +65,49 @@ app.get('/vote', (req, res) => {
     if(req.session.loggedin) {
         db.query("SELECT * FROM table_calon", (err, results) => {
             if(err) throw err;
-            res.render('vote', {candidate: results})
+            res.render('vote', {candidate: results , user:{username: "monitu12"}})
         })
     } else {
+        req.flash('warning', { type: 'error',
+                               message: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     }
 })
 
 // detail calon 
 app.get('/detail', (req, res) => {
-    if(req.session.loggedin) {
-        res.render('detail')
-    } else {
-        res.redirect('/')
-    }
+    // if(req.session.loggedin) {
+    // } else {
+    //     req.flash('warning', { type: 'error',
+    //     message: 'Anda harus login terlebih dahulu!'});
+    //     res.redirect('/')
+    // }
+    res.render('detail')
 })
 
 // admin page 
 app.get('/admin', (req, res) => {
     if(req.session.loggedin && req.session.admin) { 
-        res.render('admin', { message: req.flash('info') })
+        db.query("SELECT * FROM table_calon", (err, results) => {
+            if(err) throw err;
+            res.render('admin', { message: req.flash('info'), candite: results})
+        })
     } else {
+        req.flash('warning', { type: 'error',
+                               message: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     }
 })
 
 // add candidate page
 app.get('/add_calon', (req, res) => {
-    // if(req.session.loggedin && req.session.admin) {
-    // } else {
-    //     res.redirect('/')
-    // } do later
-    res.render('add_calon')
+    if(req.session.loggedin && req.session.admin) {
+        res.render('add_calon')
+    } else {
+        req.flash('warning', { type: 'error',
+                               message: 'Anda harus login terlebih dahulu!'});
+        res.redirect('/')
+    } 
 })
 
 // destroy session and logout from website

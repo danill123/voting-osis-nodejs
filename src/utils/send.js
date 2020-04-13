@@ -62,8 +62,14 @@ const send = (app) => {
 
     })
 
-    app.get('/pilih', (req, res) => {
-        
+    app.get('/pilih/:calon/', (req, res) => {
+        const username = req.session.username
+        const id_calon = req.params.calon
+        db.query(`INSERT INTO result (pemilih, calon) VALUES ("${username}", "${id_calon}")`, (err, results) => {
+            if(err) throw err
+            req.session.destroy()
+            res.redirect('/')
+        })
     })
 }
 
