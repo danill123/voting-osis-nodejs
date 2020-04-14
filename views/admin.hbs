@@ -80,6 +80,23 @@
             <h1 class="h3 mb-0 text-gray-800">Panel Admin</h1>
             <a href="/logout" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-sign-out-alt"></i> Logout </a>
           </div>
+          <div class="row">
+            <div class="col-md-7">
+              <!-- Pesan flash sesi -->
+              {{#each message}}
+              {{#if type}}
+                <div class="alert alert-success" role="alert">
+                  {{text}}
+                </div>
+              {{else}}
+                <div class="alert alert-danger" role="alert">
+                  {{text}}
+                </div>
+              {{/if}}
+              {{/each}}
+
+            </div>
+          </div>
 
           <div class="row">
             {{#each candite}}
@@ -100,7 +117,7 @@
                                   Menu
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                  <a href="" class="dropdown-item text-danger"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                  <a href="/hapus/{{id}}/{{foto}}" class="dropdown-item text-danger"><i class="fas fa-trash-alt"></i> Hapus</a>
                                   <a href="" class="dropdown-item text-warning"><i class="fas fa-edit"></i> Edit</a>
                                 </div>
                             </div>

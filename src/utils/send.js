@@ -6,11 +6,11 @@ const fs = require('fs')
 const send = (app) => {
     // upload data & gambar calon
     app.post('/up_calon/:calon/:visi', (req, res) => {
-        // decode nama calon
+        // decode base64 nama calon
         const calon = req.params.calon
         const bff = new Buffer(calon, 'base64')
         const text = bff.toString('ascii')
-        // decode visi-misi
+        // decode base64 visi-misi
         const visi = req.params.visi
         const buf = new Buffer(visi, 'base64')
         const val = buf.toString('ascii')
@@ -39,22 +39,22 @@ const send = (app) => {
                     if(err) throw err;
                     if(results.affectedRows > 0) {
                         req.flash('info', {
-                                            type: "success",
-                                            message: "Calon Berhasil ditambahkan"
+                                            type: true,
+                                            text: "Data calon Berhasil ditambahkan"
                                           })
                         res.redirect('/admin')
                     } else {
                         req.flash('info', {
-                                            type:"error",
-                                            message: "Calon gagal ditambahkan"
+                                            type: false,
+                                            text: "Data calon gagal ditambahkan"
                                            })
                         res.redirect('/add_calon')
                     }
                 })
              } else {
                  req.flash('info', {
-                             type:"error",
-                             message: "Calon gagal ditambahkan"
+                             type: false,
+                             text: "Data calon gagal ditambahkan"
                           })
                  res.redirect('/add_calon')   
              }
@@ -62,6 +62,7 @@ const send = (app) => {
 
     })
 
+    // upload coblosan ke db
     app.get('/pilih/:calon/', (req, res) => {
         const username = req.session.username
         const id_calon = req.params.calon
@@ -71,6 +72,32 @@ const send = (app) => {
             res.redirect('/')
         })
     })
+
+    // hapus data calon
+    app.get('/hapus/:id/:img', (req, res) => {
+        const id = req.params.id
+        const img = req.params.img
+
+        db.query(`DELETE FROM table_calon WHERE id = ${id}`, (err, result) => {
+            if(err) {
+                req.flash('info', {
+                        type: false,
+                        text: "Data calon gagal dihapus"
+                })
+                res.redirect('/admin')
+            }
+
+            let img_cln = path.join(__dirname, "../../public/img/calon/") + img
+            fs.unlink(img_cln) // hapus file calon
+            req.flash('info', {
+                        type: true,
+                        text: "Data calon berhasil dihapus"
+                      })
+            res.redirect('/admin')
+
+        })
+    })
+
 }
 
 module.exports = send;

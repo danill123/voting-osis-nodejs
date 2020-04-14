@@ -5,13 +5,16 @@ const bodyParser = require('body-parser')
 const db = require('./utils/db')
 const session = require('express-session')
 const flash = require('express-flash')
+const compression = require('compression')
 const send = require('./utils/send')
+
+app.use(compression()) // compress all request GET
 
 var sessionStorage = new session.MemoryStore
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(session({
-    cookie: {maxAge: 60000},
+    cookie: {maxAge: 60000 * (60 * 48)},
     store: sessionStorage, 
     secret: "secret",
     resave: true,
@@ -51,7 +54,6 @@ app.post('/auth', (req, res) => {
                     res.redirect('/vote')
                 } 
             }
-
         })
     } else {
         req.flash('warning', { type: 'error',
@@ -75,14 +77,17 @@ app.get('/vote', (req, res) => {
 })
 
 // detail calon 
-app.get('/detail', (req, res) => {
-    // if(req.session.loggedin) {
-    // } else {
-    //     req.flash('warning', { type: 'error',
-    //     message: 'Anda harus login terlebih dahulu!'});
-    //     res.redirect('/')
-    // }
-    res.render('detail')
+app.get('/detail/:id', (req, res) => {
+    if(req.session.loggedin) {
+        db.query(`SELECT * FROM table_calon WHERE id = ${req.params.id}`, (err, results) => {
+            if(err) throw err;  
+            res.render('detail', results[0])
+        })
+    } else {
+        req.flash('warning', { type: 'error',
+        message: 'Anda harus login terlebih dahulu!'});
+        res.redirect('/')
+    }
 })
 
 // admin page 
