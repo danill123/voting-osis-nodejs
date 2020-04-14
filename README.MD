@@ -15,4 +15,4 @@
 - Bootstrap 
 
 ## :heartpulse: Thanks for
-- davidtmiller [Bootstrap Template](http://https://github.com/BlackrockDigital/startbootstrap-sb-admin-2 "template")
+- davidtmiller [Bootstrap Template](https://github.com/BlackrockDigital/startbootstrap-sb-admin-2 "template")
