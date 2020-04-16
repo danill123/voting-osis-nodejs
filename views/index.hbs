@@ -34,13 +34,11 @@
             <div class="row justify-content-center">
               <div class="col-lg-12">
                 <div class="p-5">
-                  {{#if data}}
-                      <div class="alert alert-danger text-center" role="alert">
-                        {{#each data}}
-                              {{message}}
-                        {{/each}}
+                {{#each message}}
+                      <div class="alert alert-{{type}} text-center" role="alert">
+                        {{text}}
                       </div>
-                  {{/if}}
+                {{/each}}
                   <div class="text-center">
                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 15rem;" src="img/undraw_voting_nvu7.png" alt="">
                     <h1 class="h4 text-gray-900 mb-4">E-VOTING OSIS</h1>

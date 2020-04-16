@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, "../public")))
 
 // welcome website
 app.get('/', (req, res) => {
-    res.render('index', { data: req.flash('warning') })
+    res.render('index', {message: req.flash('warning')})
 })
 
 // authentication controller
@@ -40,8 +40,8 @@ app.post('/auth', (req, res) => {
     if(user && pass) {
         db.query(`SELECT * FROM user WHERE username = "${user}" AND password = "${pass}"`, (err, results) => {
             if(results === undefined || results.length == 0) {
-                req.flash('warning', { type: 'error',
-                                       message: 'Tidak ditemukan'});
+                req.flash('warning', { type: 'danger',
+                                       text: 'Tidak ditemukan'});
                 res.redirect('/');
             } else {
                 if (results[0].level == "admin") {
@@ -49,15 +49,25 @@ app.post('/auth', (req, res) => {
                     req.session.admin = true
                     res.redirect('/admin')
                 } else {
-                    req.session.loggedin = true;
-                    req.session.username = user
-                    res.redirect('/vote')
+                    // verifikasi apakah user telah memilih
+                    db.query(`SELECT * FROM result WHERE pemilih = "${user}"`, (err, results) => {
+                        if(err) throw err;
+                        if(results === undefined || results.length == 0){
+                            req.session.loggedin = true;
+                            req.session.username = user
+                            res.redirect('/vote')
+                        } else {
+                            req.flash('warning', {type: 'warning',
+                                    text: 'Maaf anda sudah memilih'})
+                            res.redirect('/');
+                        }
+                    })
                 } 
             }
         })
     } else {
-        req.flash('warning', { type: 'error',
-                               message: 'Mohon username & password diisi lengkap!'});
+        req.flash('warning', { type: 'danger',
+                               text: 'Mohon username & password diisi lengkap!'});
         res.redirect('/')
     }
 })
@@ -67,11 +77,11 @@ app.get('/vote', (req, res) => {
     if(req.session.loggedin) {
         db.query("SELECT * FROM table_calon", (err, results) => {
             if(err) throw err;
-            res.render('vote', {candidate: results , user:{username: "monitu12"}})
+            res.render('vote', {candidate: results})
         })
     } else {
-        req.flash('warning', { type: 'error',
-                               message: 'Anda harus login terlebih dahulu!'});
+        req.flash('warning', { type: 'danger',
+                               text: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     }
 })
@@ -84,8 +94,8 @@ app.get('/detail/:id', (req, res) => {
             res.render('detail', results[0])
         })
     } else {
-        req.flash('warning', { type: 'error',
-        message: 'Anda harus login terlebih dahulu!'});
+        req.flash('warning', { type: 'danger',
+                   text: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     }
 })
@@ -98,10 +108,18 @@ app.get('/admin', (req, res) => {
             res.render('admin', { message: req.flash('info'), candite: results})
         })
     } else {
-        req.flash('warning', { type: 'error',
-                               message: 'Anda harus login terlebih dahulu!'});
+        req.flash('warning', { type: 'danger',
+                               text: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     }
+})
+
+// view edit data calon
+app.get('/edit/:id', (req, res) => {
+    const id = req.params.id
+    db.query(`SELECT * FROM table_calon WHERE id = ${id}`, (err, results) => {
+        res.render('edit', {message: results})
+    })
 })
 
 // add candidate page
@@ -109,8 +127,8 @@ app.get('/add_calon', (req, res) => {
     if(req.session.loggedin && req.session.admin) {
         res.render('add_calon')
     } else {
-        req.flash('warning', { type: 'error',
-                               message: 'Anda harus login terlebih dahulu!'});
+        req.flash('warning', { type: 'danger',
+                               text: 'Anda harus login terlebih dahulu!'});
         res.redirect('/')
     } 
 })

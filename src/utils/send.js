@@ -62,14 +62,83 @@ const send = (app) => {
 
     })
 
+    // upload edit data calon
+    app.post('/edit/:calon/:visi/:id/:old_img', (req, res) => {
+        // initialization request parameter 
+        const cal = decd_64(req.params.calon).toString()
+        const vs = decd_64(req.params.visi).toString()
+        const id = req.params.id
+        const old_img = req.params.old_img
+
+        // initialization upload file for change data
+        const form2 = new formidable.IncomingForm();
+        form2.multiples = true
+        form2.uploadDir = path.join(__dirname, "../../public/img/calon")
+        form2.keepExtensions = true
+        form2.hash = true
+        form2.parse(req, (err, fields, file) => {
+            // jika tanpa upload foto baru
+            if(file.foto.type !== "image/png") {
+                let init3 = pars_pth(file.files.path).toString()
+                fs.unlink(del_pth(init3)) // delete hash file
+
+                let init4 = pars_pth(file.foto.path).toString()
+                fs.unlink(del_pth(init4)) // delete hash file
+
+                db.query(`UPDATE table_calon SET nama_calon = "${cal}", visi_misi = "${vs}", foto = "${old_img}" WHERE table_calon.id = ${id}`, (err, results) => {
+                    if(!err) {
+                        req.flash('info', {
+                                   type: true,
+                                   text: "Data calon berhasil di ubah"
+                                 })
+                        res.redirect('/admin')
+                    } else {
+                        req.flash('info', {
+                            type: false,
+                            text: "Data calon gagal diubah"
+                         })
+                        res.redirect('/admin')
+                    }
+                })
+
+            } else { 
+                // jika dengan foto baru
+                let im = pars_pth(file.foto.path).toString()
+                let hsh = pars_pth(file.files.path).toString()
+                fs.unlink(del_pth(hsh)) // delete hash file
+
+                db.query(`UPDATE table_calon SET nama_calon = "${cal}" , visi_misi = "${vs}" , foto = "${im}" WHERE table_calon.id = ${id}`, (err, results) => {
+                    if(!err) {
+                        req.flash('info', {
+                                   type: true,
+                                   text: "Data calon berhasil di ubah"
+                                 })
+                        res.redirect('/admin')
+                    } else {
+                        req.flash('info', {
+                            type: false,
+                            text: "Data calon gagal diubah"
+                         })
+                        res.redirect('/admin')
+                    }
+                })
+            }
+
+        })
+
+    })
+
     // upload coblosan ke db
     app.get('/pilih/:calon/', (req, res) => {
         const username = req.session.username
         const id_calon = req.params.calon
         db.query(`INSERT INTO result (pemilih, calon) VALUES ("${username}", "${id_calon}")`, (err, results) => {
-            if(err) throw err
-            req.session.destroy()
-            res.redirect('/')
+            if(err){
+                 throw err;
+            } else {
+                req.session.destroy()
+                res.redirect('/')
+            }
         })
     })
 
@@ -87,8 +156,7 @@ const send = (app) => {
                 res.redirect('/admin')
             }
 
-            let img_cln = path.join(__dirname, "../../public/img/calon/") + img
-            fs.unlink(img_cln) // hapus file calon
+            fs.unlink(del_pth(img)) // hapus file calon
             req.flash('info', {
                         type: true,
                         text: "Data calon berhasil dihapus"
@@ -98,6 +166,24 @@ const send = (app) => {
         })
     })
 
+}
+
+// function for decode base64
+const decd_64 = (data) => {
+    const bfr = new Buffer(data, 'base64')
+    return bfr.toString('ascii')
+}
+
+// function for parse path 
+const pars_pth = (data) => {
+    const prs = data.split("/")
+    return prs[prs.length - 1]
+}
+
+// function for delete path
+const del_pth = (data) => {
+    let dir = path.join(__dirname, "../../public/img/calon/") + data
+    return dir.toString()
 }
 
 module.exports = send;
