@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const http = require('http').Server(app);
+const io = require('socket.io')(http)
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./utils/db')
@@ -7,6 +9,8 @@ const session = require('express-session')
 const flash = require('express-flash')
 const compression = require('compression')
 const send = require('./utils/send')
+const sockt = require('./utils/sockt')
+
 
 app.use(compression()) // compress all request GET
 
@@ -103,6 +107,9 @@ app.get('/detail/:id', (req, res) => {
 // admin page 
 app.get('/admin', (req, res) => {
     if(req.session.loggedin && req.session.admin) { 
+        // socket.io features & ability just for admin
+        sockt(io)
+
         db.query("SELECT * FROM table_calon", (err, results) => {
             if(err) throw err;
             res.render('admin', { message: req.flash('info'), candite: results})
@@ -147,6 +154,6 @@ app.get('*', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
+http.listen(PORT, () => {
     console.log(`listen on port ${PORT} `)
 })

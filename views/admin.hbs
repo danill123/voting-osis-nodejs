@@ -140,11 +140,11 @@
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-              <div class="card shadow mb-4" style="width: 700px;">
+            <div class="col-xl-12 col-lg-7">
+              <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Grafik Garis</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Grafik Garis Suara</h6> refresh data setiap 2 detik
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -156,28 +156,38 @@
             </div>
 
             <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
+            <div class="col-xl-7 col-lg-5">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Persentase</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Perhitungan Suara</h6>
                 </div>
-                <!-- Card Body -->
+                <!-- persentase  -->
                 <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                  </div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nama Calon</th>
+                          <th scope="col" class="text-center">ID</th>
+                          <th scope="col" class="text-center">Suara</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {{#each candite}}
+                      <tr>
+                         <td>{{nama_calon}}</td>
+                         <td class="text-center">ID CALON {{id}}</td>
+                         <td id="sr{{id}}" class="text-center">90</td>
+                      </tr>
+                      {{/each}}
+                      </tbody>
+                    </table>
+
+                    <p class="font-weight-bold text-right mr-4">Jumlah suara = <span id="total_suara"> </span></p>
+                    {{!-- <ul class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                      </li>
+                    </ul> --}}
                 </div>
               </div>
             </div>
@@ -214,6 +224,10 @@
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+  <!-- socket script for live stream data-->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/socket.js"></script>
+
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
@@ -225,7 +239,6 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

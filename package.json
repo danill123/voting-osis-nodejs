@@ -18,7 +18,8 @@
     "express.js": "^1.0.0",
     "formidable": "^1.2.2",
     "hbs": "^4.1.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {}
 }
