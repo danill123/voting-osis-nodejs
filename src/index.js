@@ -90,6 +90,11 @@ app.get('/vote', (req, res) => {
     }
 })
 
+// thank page 
+app.get('/thanks', (req, res) => {
+    res.render('thanks')
+})
+
 // detail calon 
 app.get('/detail/:id', (req, res) => {
     if(req.session.loggedin) {

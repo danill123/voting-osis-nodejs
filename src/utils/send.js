@@ -7,13 +7,9 @@ const send = (app) => {
     // upload data & gambar calon
     app.post('/up_calon/:calon/:visi', (req, res) => {
         // decode base64 nama calon
-        const calon = req.params.calon
-        const bff = new Buffer(calon, 'base64')
-        const text = bff.toString('ascii')
+        const text = decd_64(req.params.calon)
         // decode base64 visi-misi
-        const visi = req.params.visi
-        const buf = new Buffer(visi, 'base64')
-        const val = buf.toString('ascii')
+        const val = decd_64(req.params.visi)
         // initialization upload file
         const form = new formidable.IncomingForm();
         form.multiples = true
@@ -24,16 +20,13 @@ const send = (app) => {
             if(!err) {
                 // --> region upload
                 const value = [text.toString(), val.toString()]
+
                 // delete hash file
-                let init = file.files.path
-                let conf = init.split("/")
-                let file_nm = conf[conf.length - 1]
-                let path_fl = path.join(__dirname, "../../public/img/calon/") + file_nm
-                fs.unlink(path_fl) // delete hash file
+                let file_nm = pars_pth(file.files.path).toString()
+                fs.unlink(del_pth(file_nm)) // delete hash file
+
                 // initialization variable for image name
-                let init2 = file.foto.path
-                let conf2 = init2.split("/")
-                let file_nm2 = conf2[conf2.length - 1] // image name variable
+                let file_nm2 = pars_pth(file.foto.path) // image name variable
                 // --> region data query 
                 db.query(`INSERT INTO table_calon (nama_calon, visi_misi, foto) VALUES ("${value[0]}", "${value[1]}", "${file_nm2}")`, (err, results) => {
                     if(err) throw err;
@@ -130,40 +123,53 @@ const send = (app) => {
 
     // upload coblosan ke db
     app.get('/pilih/:calon/', (req, res) => {
-        const username = req.session.username
-        const id_calon = req.params.calon
-        db.query(`INSERT INTO result (pemilih, calon) VALUES ("${username}", "${id_calon}")`, (err, results) => {
-            if(err){
-                 throw err;
-            } else {
-                req.session.destroy()
-                res.redirect('/')
-            }
-        })
+        if(req.session.loggedin) {
+            const username = req.session.username
+            const id_calon = req.params.calon
+            db.query(`INSERT INTO result (pemilih, calon) VALUES ("${username}", "${id_calon}")`, (err, results) => {
+                if(err){
+                     throw err;
+                } else {
+                    req.session.destroy()
+                    res.redirect('/thanks')
+                }
+            })
+        } else {
+            req.flash('warning', { type: 'danger',
+                   text: 'Anda harus login terlebih dahulu!'});
+            res.redirect('/')
+        }
+        
     })
 
     // hapus data calon
     app.get('/hapus/:id/:img', (req, res) => {
-        const id = req.params.id
-        const img = req.params.img
-
-        db.query(`DELETE FROM table_calon WHERE id = ${id}`, (err, result) => {
-            if(err) {
+        if(req.session.loggedin && req.session.admin) {
+            const id = req.params.id
+            const img = req.params.img
+    
+            db.query(`DELETE FROM table_calon WHERE id = ${id}`, (err, result) => {
+                if(err) {
+                    req.flash('info', {
+                            type: false,
+                            text: "Data calon gagal dihapus"
+                    })
+                    res.redirect('/admin')
+                }
+    
+                fs.unlink(del_pth(img)) // hapus file calon
                 req.flash('info', {
-                        type: false,
-                        text: "Data calon gagal dihapus"
-                })
+                            type: true,
+                            text: "Data calon berhasil dihapus"
+                          })
                 res.redirect('/admin')
-            }
-
-            fs.unlink(del_pth(img)) // hapus file calon
-            req.flash('info', {
-                        type: true,
-                        text: "Data calon berhasil dihapus"
-                      })
-            res.redirect('/admin')
-
-        })
+    
+            })
+        } else {
+            req.flash('warning', { type: 'danger',
+                               text: 'Anda harus login terlebih dahulu!'});
+            res.redirect('/')
+        }
     })
 
 }
