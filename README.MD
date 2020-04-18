@@ -4,7 +4,7 @@
 ## :sparkles:fitur
 - menambah, menghapus & mengedit candidate osis.
 - Memantau pemilihan secara realtime.
-- Pemilihan ketua osis secara online(keamanan belum stabil).
+- Pemilihan ketua osis secara online.
 - CMS ADMIN
 
 ## :zap:Teknologi yang digunakan
