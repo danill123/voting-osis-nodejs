@@ -108,7 +108,7 @@
                     {{!-- Text visi misi--}}
                     <textarea id="summernote" name="visi">{{{visi_misi}}}</textarea>
                     <input type="hidden" id="id_cal" value="{{id}}">
-                    <input type="hidden" id="old_image" value="temp">
+                    <input type="hidden" id="old_image" value="/img/calon/{{foto}}">
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     {{!-- <img id='img-upload'/> --}}
-                    <img id='img-upload' class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="/img/undraw_posting_photo.svg" alt="">
+                    <img id='img-upload' class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="/img/calon/{{foto}}" alt="">
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-default btn-file">
