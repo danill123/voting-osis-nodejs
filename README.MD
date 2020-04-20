@@ -9,7 +9,6 @@ Halaman detail calon
 ![image](https://drive.google.com/uc?export=view&id=14OtiRpCg9LTEmRVICf1PK3gU6SBZH2xz)
 
 Pengukuran performa
-![image](https://github.com/danill123/portofolio/blob/master/img/IMG_20171226_203326.png)
 
 Halaman vote
 ![image](https://drive.google.com/uc?export=view&id=1dYvlUqzrwKpBYtg_K0r9z3BLPj-xgZc2)
