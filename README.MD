@@ -6,12 +6,13 @@
 - CMS ADMIN
 ## Screenshot
 Halaman detail calon
-![image](https://drive.google.com/uc?export=view&id=14OtiRpCg9LTEmRVICf1PK3gU6SBZH2xz)
+![image](https://github.com/danill123/web_image/blob/master/Screenshot.png)
 
 Pengukuran performa
+![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2012-41-40.png)
 
 Halaman vote
-![image](https://drive.google.com/uc?export=view&id=1dYvlUqzrwKpBYtg_K0r9z3BLPj-xgZc2)
+![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2008-58-32.png)
 ## Prasyarat
 
  - Download xampp (windows / Linux) [xampp ](https://www.apachefriends.org/index.html) 
