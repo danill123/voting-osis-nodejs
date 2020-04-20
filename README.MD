@@ -5,6 +5,7 @@
 - Pemilihan ketua osis secara online.
 - CMS ADMIN
 ## Screenshot
+
 Halaman detail calon
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot.png)
 
