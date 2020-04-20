@@ -6,13 +6,13 @@
 - CMS ADMIN
 ## Screenshot
 Halaman detail calon
-![view detail calon]([https://drive.google.com/uc?export=view&id=14OtiRpCg9LTEmRVICf1PK3gU6SBZH2xz](https://drive.google.com/uc?export=view&id=14OtiRpCg9LTEmRVICf1PK3gU6SBZH2xz))
+![view detail calon](https://drive.google.com/uc?export=view&id=14OtiRpCg9LTEmRVICf1PK3gU6SBZH2xz)
 
 Pengukuran performa
-![enter image description here]([https://drive.google.com/uc?export=view&id=1iD-A9w-Nmlq7QM0T_Hzbm1c4F92Qp5UW](https://drive.google.com/uc?export=view&id=1iD-A9w-Nmlq7QM0T_Hzbm1c4F92Qp5UW))
+![enter image description here](https://drive.google.com/uc?export=view&id=1iD-A9w-Nmlq7QM0T_Hzbm1c4F92Qp5UW)
 
 Halaman vote
-![enter image description here]([https://drive.google.com/uc?export=view&id=1dYvlUqzrwKpBYtg_K0r9z3BLPj-xgZc2](https://drive.google.com/uc?export=view&id=1dYvlUqzrwKpBYtg_K0r9z3BLPj-xgZc2))
+![enter image description here](https://drive.google.com/uc?export=view&id=1dYvlUqzrwKpBYtg_K0r9z3BLPj-xgZc2)
 ## Prasyarat
 
  - Download xampp (windows / Linux) [xampp ](https://www.apachefriends.org/index.html) 
