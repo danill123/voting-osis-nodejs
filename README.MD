@@ -1,4 +1,4 @@
-### E-VOTING OSIS
+### E-VOTING APP
 ## fitur
 - menambah, menghapus & mengedit candidate osis.
 - Memantau pemilihan secara realtime.
