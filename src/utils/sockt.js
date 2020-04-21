@@ -9,8 +9,7 @@ const sockt = (io) => {
         console.log("-> SOCKET IO CONNECTED")
 
         // data dikirim setiap 2 detik
-        setInterval(() => {  
-            // dapatkan daftar data calon
+        socket.on("get_data", (data) => {
             db.query("SELECT * FROM table_calon", (err, results) => {
                 const id = results
                 // dapatkan daftar data hasil pemungutan suara
@@ -19,7 +18,7 @@ const sockt = (io) => {
                     socket.emit("data", {id, rsl})
                 })
             })
-        }, 2000);
+        })
 
         socket.on("disconnect", () => {
             console.log("-> Disconnect from admin panel ")

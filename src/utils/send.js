@@ -99,7 +99,7 @@ const send = (app) => {
                 let im = pars_pth(file.foto.path).toString()
                 let hsh = pars_pth(file.files.path).toString()
                 fs.unlink(del_pth(hsh)) // delete hash file
-
+                fs.unlink(path.join(__dirname, "../../public/img/calon/") + old_img) 
                 db.query(`UPDATE table_calon SET nama_calon = "${cal}" , visi_misi = "${vs}" , foto = "${im}" WHERE table_calon.id = ${id}`, (err, results) => {
                     if(!err) {
                         req.flash('info', {

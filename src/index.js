@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 app.post('/auth', (req, res) => {
     const user = req.body.username
     const pass = req.body.password
+
     if(user && pass) {
         db.query(`SELECT * FROM user WHERE username = "${user}" AND password = "${pass}"`, (err, results) => {
             if(results === undefined || results.length == 0) {
@@ -74,6 +75,7 @@ app.post('/auth', (req, res) => {
                                text: 'Mohon username & password diisi lengkap!'});
         res.redirect('/')
     }
+    
 })
 
 // enter the vote web
@@ -109,11 +111,12 @@ app.get('/detail/:id', (req, res) => {
     }
 })
 
+// socket.io features & ability just for admin
+sockt(io) // -> put in here for prevent memory leaks (node:27443) MaxListenersExceededWarning
+
 // admin page 
 app.get('/admin', (req, res) => {
     if(req.session.loggedin && req.session.admin) { 
-        // socket.io features & ability just for admin
-        sockt(io)
 
         db.query("SELECT * FROM table_calon", (err, results) => {
             if(err) throw err;
@@ -160,5 +163,9 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000
 http.listen(PORT, () => {
-    console.log(`listen on port ${PORT} `)
+    console.log(`listen on port ${PORT} 
+                \n peringatan wajib dibaca!
+                \n 1.Pastikan Database aktif / aktifkan database terlebih dahulu! (wajib)
+                \n apabalia tidak aktif maka user & admin tidak bisa login
+                \n 2.Nyalakan web server(node.js) / service node.js dengan npm untuk nyalakan http`)
 })
