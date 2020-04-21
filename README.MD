@@ -1,6 +1,6 @@
 ### E-VOTING APP
 ## fitur
-- menambah, menghapus & mengedit candidate osis.
+- menambah, menghapus & mengedit candidate calon.
 - Memantau pemilihan secara realtime.
 - Pemilihan ketua osis secara online.
 - CMS ADMIN
