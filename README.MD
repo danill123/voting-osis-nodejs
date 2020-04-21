@@ -6,12 +6,11 @@
 - CMS ADMIN
 ## Screenshot
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-24-02.png)
-
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2012-41-40.png)
-
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2008-58-32.png)
-
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-22-50.png)
+![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-28-12.png)
+![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-23-17.png)
 ## Prasyarat
 
  - Download xampp (windows / Linux) [xampp ](https://www.apachefriends.org/index.html) 
