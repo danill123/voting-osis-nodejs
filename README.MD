@@ -5,11 +5,17 @@
 - Pemilihan ketua osis secara online.
 - CMS ADMIN
 ## Screenshot
+### Detail calon page
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-24-02.png)
+### Benchmark performance 
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2012-41-40.png)
+### Halaman vote
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-20%2008-58-32.png)
+### Panel admin
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-22-50.png)
+### Chart suara
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-28-12.png)
+### Tambah calon
 ![image](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-04-21%2010-23-17.png)
 ## Prasyarat
 
