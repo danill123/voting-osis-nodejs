@@ -1,6 +1,6 @@
 ### E-VOTING APP
 ## fitur
-- menambah, menghapus & mengedit candidate osis.
+- menambah, menghapus & mengedit candidate calon.
 - Memantau pemilihan secara realtime.
 - Pemilihan ketua osis secara online.
 - CMS ADMIN
@@ -21,6 +21,14 @@
 
  - Download xampp (windows / Linux) [xampp ](https://www.apachefriends.org/index.html) 
  - Downloads node.js 
+
+## IMPORT FILE DATABASE 
+### pertama buka folder library
+![enter image description here](https://github.com/danill123/web_image/blob/master/Screenshot%20from%202020-05-04%2010-13-50.png)
+### kemudian import databasenya di phpmyadmin
+![enter image description here](https://github.com/danill123/web_image/blob/master/Importing.png)
+### kalau sudah berhasil di import maka akan muncul struktur disamping seperti ini
+![enter image description here](https://github.com/danill123/web_image/blob/master/structure.png)
 
 ## Panduan Penggunaan
  1. Aktifkan database (mysql) sebelum mengaktifkan service node.js (!wajib).
