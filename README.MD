@@ -20,7 +20,7 @@
 ## Prasyarat
 
  - Download xampp (windows / Linux) [xampp ](https://www.apachefriends.org/index.html) 
- - Downloads node.js 
+ - Downloads node.js (di rekomendasikan node versi 8 karna sampai 10 saja ,karena ada beberapa fungsi deprecated)
 
 ## IMPORT FILE DATABASE 
 ### pertama buka folder library
